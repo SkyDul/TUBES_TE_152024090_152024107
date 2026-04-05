@@ -28,28 +28,28 @@ if (!$transaksi) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Voucher Siap Dipakai - RipaNet</title>
+    <title>Voucher Berhasil — RipaNet</title>
     <link rel="icon" type="image/png" href="assets/img/logo-RipaNet.png">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css?v=5">
 </head>
 <body>
     <div class="container">
         <div class="success-shell">
-            <div class="topbar__inner" style="width: 100%; padding-top: 0;">
+            <div class="topbar__inner" style="width:100%;padding-top:0;">
                 <a class="brand" href="./">
                     <img class="brand__logo" src="assets/img/logo-RipaNet.png" alt="Logo RipaNet">
                     <span class="brand__meta">
-                        <strong>RipaNet Voucher</strong>
-                        <span>Pembayaran berhasil dan voucher sudah aktif</span>
+                        <strong>Transaksi Berhasil</strong>
+                        <span>Voucher Anda sudah aktif</span>
                     </span>
                 </a>
                 <a class="btn btn-secondary btn-sm" href="./">Beli Lagi</a>
             </div>
 
             <section class="success-banner">
-                <span class="eyebrow" style="background: rgba(255,255,255,0.12); color: #eafff5; border-color: rgba(255,255,255,0.16);">Pembayaran Berhasil</span>
-                <h1 style="margin-top: 16px;">Voucher Anda siap dipakai sekarang juga.</h1>
-                <p>Gunakan kode yang sama sebagai username dan password di halaman login hotspot RipaNet.</p>
+                <span class="eyebrow" style="background:rgba(255,255,255,0.1);color:#a7f3d0;border-color:rgba(255,255,255,0.15);">Pembayaran Berhasil</span>
+                <h1 style="margin-top:14px;">Voucher Anda siap digunakan.</h1>
+                <p>Gunakan kode di bawah sebagai username dan password di halaman login hotspot RipaNet.</p>
             </section>
 
             <div class="success-grid">
@@ -57,7 +57,7 @@ if (!$transaksi) {
                     <p class="voucher-card__label">Kode Voucher</p>
                     <div class="voucher-card__code" id="voucher-code"><?= htmlspecialchars($transaksi['mikrotik_user']) ?></div>
                     <button class="btn btn-primary copy-btn" type="button" onclick="copyToClipboard('<?= htmlspecialchars($transaksi['mikrotik_user'], ENT_QUOTES, 'UTF-8') ?>', this)">
-                        Salin Kode Voucher
+                        Salin Kode
                     </button>
 
                     <div class="voucher-info">
@@ -70,11 +70,11 @@ if (!$transaksi) {
                             <strong><?= htmlspecialchars($transaksi['durasi_display']) ?></strong>
                         </div>
                         <div class="voucher-info__item">
-                            <span>Order ID</span>
+                            <span>No. Pesanan</span>
                             <strong class="mono"><?= htmlspecialchars($orderId) ?></strong>
                         </div>
                         <div class="voucher-info__item">
-                            <span>Dibayar pada</span>
+                            <span>Waktu Bayar</span>
                             <strong><?= date('d M Y H:i', strtotime($transaksi['paid_at'])) ?></strong>
                         </div>
                     </div>
@@ -83,23 +83,23 @@ if (!$transaksi) {
                 <aside class="panel">
                     <div class="panel-head">
                         <div>
-                            <h3>Cara pakai voucher</h3>
-                            <p>Ikuti langkah berikut agar voucher langsung aktif di hotspot.</p>
+                            <h3>Cara Menggunakan Voucher</h3>
+                            <p>Ikuti langkah berikut untuk terhubung ke internet.</p>
                         </div>
                     </div>
 
-                    <div class="instructions" style="padding: 0; border: none; background: transparent;">
+                    <div class="instructions" style="padding:0;border:none;background:transparent;">
                         <ol class="instructions__list">
-                            <li>Hubungkan perangkat ke jaringan hotspot RipaNet.</li>
-                            <li>Buka browser sampai halaman login hotspot muncul.</li>
-                            <li>Masukkan kode voucher di atas sebagai username.</li>
-                            <li>Masukkan kode yang sama lagi sebagai password, lalu login.</li>
+                            <li>Hubungkan perangkat ke jaringan WiFi RipaNet.</li>
+                            <li>Buka browser, halaman login akan muncul otomatis.</li>
+                            <li>Masukkan kode voucher sebagai username.</li>
+                            <li>Masukkan kode yang sama sebagai password, lalu klik Login.</li>
                         </ol>
                     </div>
 
-                    <div class="actions-row" style="margin-top: 20px;">
-                        <a class="btn btn-secondary" href="invoice.php?order_id=<?= urlencode($orderId) ?>" target="_blank">Cetak Invoice</a>
-                        <a class="btn btn-primary" href="./">Selesai & Beli Lagi</a>
+                    <div class="actions-row" style="margin-top:16px;">
+                        <a class="btn btn-secondary" href="invoice.php?order_id=<?= urlencode($orderId) ?>" target="_blank">Cetak Struk</a>
+                        <a class="btn btn-primary" href="./">Selesai</a>
                     </div>
                 </aside>
             </div>

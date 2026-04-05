@@ -34,10 +34,10 @@ foreach ($packages as $package) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Voucher WiFi RipaNet | Beli Online atau Cash</title>
-    <meta name="description" content="Landing page voucher WiFi RipaNet dengan pembelian QRIS, pembayaran tunai, dan alur POS kasir yang lebih rapi.">
+    <title>RipaNet — Voucher WiFi Instan</title>
+    <meta name="description" content="Beli voucher WiFi RipaNet secara online via QRIS atau bayar tunai di kasir. Aktif otomatis, tanpa ribet.">
     <link rel="icon" type="image/png" href="assets/img/logo-RipaNet.png">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css?v=5">
     <script src="<?= htmlspecialchars($snapJsUrl) ?>" data-client-key="<?= htmlspecialchars($clientKey) ?>"></script>
 </head>
 <body>
@@ -47,14 +47,15 @@ foreach ($packages as $package) {
                 <a class="brand" href="./">
                     <img class="brand__logo" src="assets/img/logo-RipaNet.png" alt="Logo RipaNet">
                     <span class="brand__meta">
-                        <strong>RipaNet Hotspot</strong>
-                        <span>Voucher instan, checkout cepat, kasir lebih rapi</span>
+                        <strong>RipaNet</strong>
+                        <span>Internet Cepat & Terjangkau</span>
                     </span>
                 </a>
-                <div class="nav-actions">
+                <button class="nav-toggle" id="nav-toggle" aria-label="Menu">☰</button>
+                <div class="nav-actions" id="nav-actions">
                     <a class="nav-link" href="#paket">Paket</a>
                     <a class="nav-link" href="#cara-beli">Cara Beli</a>
-                    <a class="btn btn-secondary btn-sm" href="admin/">Masuk POS Kasir</a>
+                    <a class="btn btn-secondary btn-sm" href="admin/">Login Admin</a>
                 </div>
             </div>
         </header>
@@ -63,49 +64,48 @@ foreach ($packages as $package) {
             <section class="hero">
                 <div class="hero__layout">
                     <div class="hero__copy">
-                        <span class="eyebrow">Hotspot Voucher RipaNet</span>
-                        <h1 class="hero__title">Beli voucher WiFi dalam hitungan detik, online maupun langsung di kasir.</h1>
+                        <span class="eyebrow">Voucher WiFi RipaNet</span>
+                        <h1 class="hero__title">Internet cepat, beli voucher dalam hitungan detik.</h1>
                         <p class="hero__subtitle">
-                            Halaman ini sekarang difokuskan untuk konversi: pengunjung bisa langsung pilih paket, bayar via QRIS atau tunai,
-                            lalu voucher muncul otomatis tanpa alur yang membingungkan.
+                            Pilih paket, bayar online atau tunai, dan langsung terhubung ke internet.
                         </p>
 
                         <div class="hero__actions">
-                            <a class="btn btn-primary" href="#paket">Pilih Paket Sekarang</a>
-                            <a class="btn btn-outline" href="admin/">Buka Sistem POS</a>
+                            <a class="btn btn-primary" href="#paket">Pilih Paket</a>
+                            <a class="btn btn-outline" href="#cara-beli">Cara Beli</a>
                         </div>
 
                         <div class="hero__bullets">
-                            <span class="hero__bullet">QRIS dan e-wallet</span>
-                            <span class="hero__bullet">Tunai via kasir</span>
-                            <span class="hero__bullet">Voucher aktif otomatis</span>
+                            <span class="hero__bullet">QRIS & E-Wallet</span>
+                            <span class="hero__bullet">Bayar Tunai</span>
+                            <span class="hero__bullet">Aktif Otomatis</span>
                         </div>
                     </div>
 
                     <aside class="hero__panel">
                         <div class="hero-stats">
                             <div class="stat-card">
-                                <div class="stat-card__label">Paket aktif</div>
+                                <div class="stat-card__label">Paket Tersedia</div>
                                 <div class="stat-card__value"><?= number_format($packageCount) ?></div>
                             </div>
                             <div class="stat-card">
-                                <div class="stat-card__label">Harga mulai</div>
+                                <div class="stat-card__label">Mulai Dari</div>
                                 <div class="stat-card__value">Rp <?= number_format($cheapestPrice, 0, ',', '.') ?></div>
                             </div>
                         </div>
 
                         <div class="hero-board">
                             <div class="hero-board__row">
-                                <span>Checkout publik</span>
-                                <strong>QRIS / Cash</strong>
+                                <span>Pembayaran</span>
+                                <strong>QRIS / Tunai</strong>
                             </div>
                             <div class="hero-board__row">
-                                <span>POS kasir</span>
-                                <strong>Approve dan cetak cepat</strong>
+                                <span>Aktivasi</span>
+                                <strong>Otomatis</strong>
                             </div>
                             <div class="hero-board__row">
-                                <span>Voucher</span>
-                                <strong>Otomatis setelah lunas</strong>
+                                <span>Struk</span>
+                                <strong>Cetak / Digital</strong>
                             </div>
                         </div>
 
@@ -113,22 +113,22 @@ foreach ($packages as $package) {
                             <div class="flow-card">
                                 <span class="flow-card__number">1</span>
                                 <div>
-                                    <h3>Pilih paket</h3>
-                                    <p>Pelanggan langsung melihat opsi yang paling jelas dan paling relevan.</p>
+                                    <h3>Pilih Paket</h3>
+                                    <p>Tentukan paket internet sesuai kebutuhan Anda.</p>
                                 </div>
                             </div>
                             <div class="flow-card">
                                 <span class="flow-card__number">2</span>
                                 <div>
-                                    <h3>Pilih metode bayar</h3>
-                                    <p>Online pakai Midtrans atau tunai lewat meja kasir.</p>
+                                    <h3>Bayar</h3>
+                                    <p>Bayar via QRIS, e-wallet, atau tunai di kasir.</p>
                                 </div>
                             </div>
                             <div class="flow-card">
                                 <span class="flow-card__number">3</span>
                                 <div>
-                                    <h3>Voucher langsung keluar</h3>
-                                    <p>Setelah settlement, kode voucher tampil dan bisa dicetak jadi struk.</p>
+                                    <h3>Terhubung</h3>
+                                    <p>Voucher langsung aktif, tinggal masukkan kode dan online.</p>
                                 </div>
                             </div>
                         </div>
@@ -139,16 +139,16 @@ foreach ($packages as $package) {
             <section class="section">
                 <div class="cards-grid">
                     <article class="info-card">
-                        <h3>Tampilan lebih meyakinkan</h3>
-                        <p>Hero, CTA, dan kartu paket sekarang disusun supaya pelanggan paham alurnya tanpa perlu bertanya dulu.</p>
+                        <h3>Internet Cepat</h3>
+                        <p>Akses internet stabil dan cepat untuk streaming, kerja, atau belajar online.</p>
                     </article>
                     <article class="info-card info-card--accent">
-                        <h3>Lebih cocok buat jualan</h3>
-                        <p>Paket unggulan diberi penekanan, harga lebih tegas, dan informasi pembayaran tidak tercecer.</p>
+                        <h3>Pembayaran Mudah</h3>
+                        <p>Bayar dengan QRIS, e-wallet, transfer bank, atau langsung tunai di kasir.</p>
                     </article>
                     <article class="info-card">
-                        <h3>Nyambung ke POS</h3>
-                        <p>Pengunjung yang ingin bayar cash tetap masuk ke antrean kasir yang sudah dipoles ulang di area admin.</p>
+                        <h3>Aktivasi Instan</h3>
+                        <p>Setelah pembayaran berhasil, voucher langsung aktif dan siap digunakan.</p>
                     </article>
                 </div>
             </section>
@@ -157,17 +157,17 @@ foreach ($packages as $package) {
                 <div class="section-head">
                     <div>
                         <span class="eyebrow">Daftar Paket</span>
-                        <h2>Pilih durasi yang paling pas untuk pelanggan Anda.</h2>
+                        <h2>Pilih paket internet yang sesuai kebutuhan Anda.</h2>
                     </div>
-                    <p>Setiap paket di bawah bisa dibayar online atau tunai. Paket dengan nilai terbaik kami sorot supaya keputusan beli lebih cepat.</p>
+                    <p>Semua paket bisa dibayar secara online maupun tunai. Paket terbaik ditandai khusus.</p>
                 </div>
 
                 <div class="packages-wrap">
                     <div class="packages-grid">
                         <?php if (empty($packages)): ?>
                             <div class="empty-state">
-                                <strong>Belum ada paket aktif.</strong>
-                                <span>Tambahkan paket voucher di database supaya halaman jualannya tampil.</span>
+                                <strong>Belum ada paket tersedia.</strong>
+                                <span>Hubungi admin untuk menambahkan paket voucher.</span>
                             </div>
                         <?php else: ?>
                             <?php foreach ($packages as $package): ?>
@@ -179,25 +179,24 @@ foreach ($packages as $package) {
                                 <article class="package-card<?= $isFeatured ? ' package-card--featured' : '' ?>">
                                     <div class="package-card__top">
                                         <div>
-                                            <span class="package-badge"><?= $isFeatured ? 'Best Value' : 'Voucher WiFi' ?></span>
+                                            <span class="package-badge"><?= $isFeatured ? 'Terbaik' : 'Voucher WiFi' ?></span>
                                             <h3 class="package-card__name"><?= htmlspecialchars($package['nama_paket']) ?></h3>
                                             <p class="package-card__duration"><?= htmlspecialchars($package['durasi_display']) ?></p>
                                         </div>
-                                        <span class="muted">Mulai <?= number_format($perDay, 0, ',', '.') ?>/hari</span>
+                                        <span class="muted"><?= number_format($perDay, 0, ',', '.') ?>/hari</span>
                                     </div>
 
                                     <div class="package-card__price"><?= $priceDisplay ?></div>
-                                    <p class="package-caption">Cocok untuk pembelian cepat di halaman ini maupun penjualan manual dari meja kasir.</p>
 
                                     <ul class="package-feature-list">
-                                        <li>Voucher otomatis muncul setelah pembayaran sukses.</li>
-                                        <li>Dapat dibayar dengan QRIS, e-wallet, transfer, atau tunai.</li>
-                                        <li>Struk dan invoice tetap bisa dicetak setelah transaksi selesai.</li>
+                                        <li>Voucher aktif otomatis setelah pembayaran.</li>
+                                        <li>Bisa dibayar via QRIS, e-wallet, atau tunai.</li>
+                                        <li>Struk dan invoice tersedia setelah transaksi.</li>
                                     </ul>
 
                                     <div class="package-helper">
                                         <span><?= htmlspecialchars($package['durasi_display']) ?></span>
-                                        <span>Checkout fleksibel</span>
+                                        <span>Online & Tunai</span>
                                     </div>
 
                                     <button
@@ -208,7 +207,7 @@ foreach ($packages as $package) {
                                         data-price="<?= (int) $package['harga'] ?>"
                                         data-price-display="<?= htmlspecialchars($priceDisplay, ENT_QUOTES, 'UTF-8') ?>"
                                     >
-                                        Beli Paket Ini
+                                        Beli Sekarang
                                     </button>
                                 </article>
                             <?php endforeach; ?>
@@ -220,22 +219,22 @@ foreach ($packages as $package) {
             <section class="section" id="cara-beli">
                 <div class="showcase-grid">
                     <article class="showcase-card showcase-card--dark">
-                        <span class="eyebrow" style="background: rgba(255,255,255,0.12); color: #ffe9ca; border-color: rgba(255,255,255,0.16);">Cara Beli</span>
-                        <h2 style="margin-top: 16px;">Dua jalur pembelian, satu pengalaman yang tetap rapi.</h2>
+                        <span class="eyebrow" style="background:rgba(255,255,255,0.1);color:#fde68a;border-color:rgba(255,255,255,0.15);">Cara Beli</span>
+                        <h2 style="margin-top:14px;">Beli voucher dalam 3 langkah mudah.</h2>
                         <ul>
-                            <li>Pilih paket lalu lanjut ke pembayaran online jika pelanggan ingin self-service.</li>
-                            <li>Jika pelanggan bayar tunai, sistem membuat order cash dan menunggu kasir melakukan konfirmasi.</li>
-                            <li>Begitu lunas, voucher dan invoice tersedia tanpa input manual tambahan.</li>
+                            <li>Pilih paket internet yang sesuai kebutuhan Anda.</li>
+                            <li>Bayar secara online atau tunai di kasir terdekat.</li>
+                            <li>Voucher dan struk tersedia otomatis setelah pembayaran berhasil.</li>
                         </ul>
                     </article>
 
                     <article class="showcase-card">
-                        <span class="eyebrow">Kenapa Lebih Enak Dipakai</span>
-                        <h2 style="margin-top: 16px;">UI publik dan POS sekarang saling terhubung secara visual.</h2>
+                        <span class="eyebrow">Kenapa RipaNet?</span>
+                        <h2 style="margin-top:14px;">Mudah, cepat, dan bisa diandalkan.</h2>
                         <ul>
-                            <li>Bahasa visual lebih konsisten antara landing page, checkout, success page, dan admin.</li>
-                            <li>Informasi penting seperti harga, status, dan order ID tampil lebih tegas.</li>
-                            <li>Tombol aksi utama diprioritaskan supaya user tidak bingung langkah berikutnya.</li>
+                            <li>Tampilan sederhana, langsung paham cara beli.</li>
+                            <li>Harga transparan, tidak ada biaya tersembunyi.</li>
+                            <li>Dukungan pembayaran lengkap: QRIS, e-wallet, transfer, dan tunai.</li>
                         </ul>
                     </article>
                 </div>
@@ -245,15 +244,15 @@ foreach ($packages as $package) {
                 <div class="support-grid">
                     <article class="support-card">
                         <strong>Pembayaran Online</strong>
-                        <p>Midtrans Snap tetap dipakai untuk QRIS, e-wallet, dan metode online lainnya.</p>
+                        <p>Bayar langsung dari HP menggunakan QRIS, GoPay, OVO, atau transfer bank.</p>
                     </article>
                     <article class="support-card">
                         <strong>Pembayaran Tunai</strong>
-                        <p>Masuk ke antrean kasir, lalu admin tinggal approve dari terminal POS yang baru.</p>
+                        <p>Datang ke kasir, sebutkan paket yang diinginkan, lalu bayar tunai.</p>
                     </article>
                     <article class="support-card">
                         <strong>Voucher & Struk</strong>
-                        <p>Setelah settlement, pelanggan bisa langsung melihat voucher dan membuka invoice cetak.</p>
+                        <p>Setelah pembayaran, voucher langsung aktif dan struk bisa dicetak.</p>
                     </article>
                 </div>
             </section>
@@ -261,25 +260,25 @@ foreach ($packages as $package) {
             <section class="section">
                 <div class="cta-band">
                     <div>
-                        <h2>Siap jual voucher lebih cepat dan lebih rapi?</h2>
-                        <p>Mulai dari halaman publik ini untuk pelanggan, atau masuk ke sistem POS untuk penjualan dan approval kasir.</p>
+                        <h2>Siap terhubung ke internet?</h2>
+                        <p>Pilih paket, bayar, dan langsung online. Semudah itu.</p>
                         <div class="cta-band__actions">
-                            <a class="btn btn-accent" href="#paket">Mulai dari Paket</a>
-                            <a class="btn btn-secondary" href="admin/">Masuk POS Kasir</a>
+                            <a class="btn btn-accent" href="#paket">Lihat Paket</a>
+                            <a class="btn btn-secondary" href="admin/">Login Admin</a>
                         </div>
                     </div>
                     <div class="cta-band__stats">
                         <div class="cta-mini">
-                            <strong>1 halaman jualan</strong>
-                            <span>Lebih kuat untuk pengunjung baru.</span>
+                            <strong><?= number_format($packageCount) ?> Paket</strong>
+                            <span>Pilihan sesuai kebutuhan Anda.</span>
                         </div>
                         <div class="cta-mini">
-                            <strong>1 sistem POS</strong>
-                            <span>Lebih ringkas untuk kasir dan admin.</span>
+                            <strong>2 Metode Bayar</strong>
+                            <span>Online dan tunai, sesuai kenyamanan.</span>
                         </div>
                         <div class="cta-mini">
-                            <strong>0 langkah mubazir</strong>
-                            <span>Checkout, settlement, voucher, dan print tersambung.</span>
+                            <strong>Aktif Instan</strong>
+                            <span>Voucher langsung aktif setelah bayar.</span>
                         </div>
                     </div>
                 </div>
@@ -290,13 +289,13 @@ foreach ($packages as $package) {
             <div class="container">
                 <div class="footer__card">
                     <div>
-                        <strong>RipaNet Hotspot Billing</strong>
-                        <p>Pembayaran diproses oleh Midtrans dan voucher dihasilkan otomatis setelah lunas.</p>
+                        <strong>RipaNet</strong>
+                        <p>Voucher WiFi instan — bayar dan langsung online.</p>
                     </div>
                     <div class="footer__links">
                         <a href="#paket">Paket</a>
                         <a href="#cara-beli">Cara Beli</a>
-                        <a href="admin/">POS Kasir</a>
+                        <a href="admin/">Admin</a>
                     </div>
                 </div>
             </div>
@@ -305,31 +304,43 @@ foreach ($packages as $package) {
 
     <div class="modal-overlay" id="payment-modal">
         <div class="modal-content">
-            <button class="modal-close" type="button" id="payment-modal-close" aria-label="Tutup modal">&times;</button>
+            <button class="modal-close" type="button" id="payment-modal-close" aria-label="Tutup">&times;</button>
             <div class="modal-header">
-                <h3 class="modal-title">Pilih metode pembayaran</h3>
+                <h3 class="modal-title">Pilih Metode Pembayaran</h3>
                 <p class="helper-text">
-                    Paket <strong id="modal-package-name">-</strong> dengan harga <strong id="modal-package-price">-</strong>
+                    Paket <strong id="modal-package-name">-</strong> — <strong id="modal-package-price">-</strong>
                 </p>
             </div>
 
             <div class="payment-options">
                 <div class="payment-option">
-                    <strong>Bayar online</strong>
-                    <p>Gunakan QRIS, e-wallet, virtual account, atau metode online lain dari Midtrans.</p>
-                    <button type="button" class="btn btn-primary payment-action" data-method="online">Lanjut Bayar Online</button>
+                    <strong>Bayar Online</strong>
+                    <p>QRIS, e-wallet, virtual account, atau metode online lainnya.</p>
+                    <button type="button" class="btn btn-primary payment-action" data-method="online">Bayar Online</button>
                 </div>
 
                 <div class="payment-option">
-                    <strong>Bayar tunai</strong>
-                    <p>Sistem akan membuat order cash, lalu pelanggan menunjukkan order ID ke kasir.</p>
-                    <button type="button" class="btn btn-accent payment-action" data-method="cash">Buat Order Tunai</button>
+                    <strong>Bayar Tunai</strong>
+                    <p>Bayar tunai ke kasir, tunjukkan nomor pesanan Anda.</p>
+                    <button type="button" class="btn btn-accent payment-action" data-method="cash">Bayar Tunai</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
+    // Mobile nav toggle
+    const navToggle = document.getElementById('nav-toggle');
+    const navActions = document.getElementById('nav-actions');
+    if (navToggle && navActions) {
+        navToggle.addEventListener('click', () => navActions.classList.toggle('open'));
+        document.addEventListener('click', (e) => {
+            if (!navToggle.contains(e.target) && !navActions.contains(e.target)) {
+                navActions.classList.remove('open');
+            }
+        });
+    }
+
     const packageButtons = document.querySelectorAll('.buy-package');
     const paymentModal = document.getElementById('payment-modal');
     const paymentModalClose = document.getElementById('payment-modal-close');
@@ -361,14 +372,10 @@ foreach ($packages as $package) {
 
     paymentModalClose.addEventListener('click', closePaymentModal);
     paymentModal.addEventListener('click', (event) => {
-        if (event.target === paymentModal) {
-            closePaymentModal();
-        }
+        if (event.target === paymentModal) closePaymentModal();
     });
     document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape') {
-            closePaymentModal();
-        }
+        if (event.key === 'Escape') closePaymentModal();
     });
 
     paymentActions.forEach((button) => {
@@ -376,9 +383,7 @@ foreach ($packages as $package) {
     });
 
     async function processPayment(method, actionButton) {
-        if (!selectedPackage) {
-            return;
-        }
+        if (!selectedPackage) return;
 
         const originalActionLabel = actionButton.innerHTML;
         const originalTriggerLabel = activeTriggerButton ? activeTriggerButton.innerHTML : '';
@@ -388,15 +393,13 @@ foreach ($packages as $package) {
 
         if (activeTriggerButton) {
             activeTriggerButton.disabled = true;
-            activeTriggerButton.innerHTML = '<span class="spinner"></span> Menyiapkan...';
+            activeTriggerButton.innerHTML = '<span class="spinner"></span> Memproses...';
         }
 
         try {
             const response = await fetch('api/create-transaction.php', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     paket_id: selectedPackage.id,
                     payment_method: method
@@ -422,9 +425,7 @@ foreach ($packages as $package) {
                     onPending: function() {
                         window.location.href = `checkout.php?order_id=${encodeURIComponent(data.data.order_id)}`;
                     },
-                    onClose: function() {
-                        restoreButtons();
-                    },
+                    onClose: function() { restoreButtons(); },
                     onError: function() {
                         alert('Pembayaran gagal atau ditolak.');
                         restoreButtons();
@@ -445,14 +446,13 @@ foreach ($packages as $package) {
 
             throw new Error('Respons transaksi tidak lengkap.');
         } catch (error) {
-            alert('Gagal memproses transaksi: ' + error.message);
+            alert('Gagal memproses: ' + error.message);
             restoreButtons();
         }
 
         function restoreButtons() {
             actionButton.disabled = false;
             actionButton.innerHTML = originalActionLabel;
-
             if (activeTriggerButton) {
                 activeTriggerButton.disabled = false;
                 activeTriggerButton.innerHTML = originalTriggerLabel;

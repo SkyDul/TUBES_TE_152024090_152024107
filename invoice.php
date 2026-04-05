@@ -4,7 +4,7 @@ require_once __DIR__ . '/config/database.php';
 $orderId = $_GET['order_id'] ?? '';
 
 if ($orderId === '') {
-    die('Order ID tidak valid');
+    die('Nomor pesanan tidak valid');
 }
 
 $pdo = getDB();
@@ -38,28 +38,28 @@ $change = max(0, $cashReceived - $transaksi['amount']);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice - <?= htmlspecialchars($orderId) ?></title>
+    <title>Struk — <?= htmlspecialchars($orderId) ?></title>
     <link rel="icon" type="image/png" href="assets/img/logo-RipaNet.png">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css?v=5">
 </head>
 <body class="receipt-page">
     <div class="receipt-shell">
         <div class="receipt-toolbar">
-            <a class="btn btn-secondary btn-sm" href="success.php?order_id=<?= urlencode($orderId) ?>">Kembali ke Voucher</a>
+            <a class="btn btn-secondary btn-sm" href="success.php?order_id=<?= urlencode($orderId) ?>">Kembali</a>
             <button class="btn btn-primary btn-sm" type="button" onclick="window.print()">Cetak Struk</button>
         </div>
 
         <div class="receipt-card">
             <div class="receipt-card__brand">
-                <img src="assets/img/logo-RipaNet.png" alt="Logo RipaNet" style="width: 72px; margin: 0 auto;">
-                <strong>RipaNet Hotspot</strong>
-                <span>Invoice pembelian voucher internet</span>
+                <img src="assets/img/logo-RipaNet.png" alt="Logo RipaNet" style="width:60px;margin:0 auto;">
+                <strong>RipaNet</strong>
+                <span>Struk Pembelian Voucher</span>
             </div>
 
             <div class="receipt-divider"></div>
 
             <div class="receipt-row">
-                <span>Order ID</span>
+                <span>No. Pesanan</span>
                 <strong><?= htmlspecialchars($orderId) ?></strong>
             </div>
             <div class="receipt-row">
@@ -68,10 +68,10 @@ $change = max(0, $cashReceived - $transaksi['amount']);
             </div>
             <div class="receipt-row">
                 <span>Metode</span>
-                <strong><?= strtoupper(htmlspecialchars($transaksi['payment_type'] ?: 'N/A')) ?></strong>
+                <strong><?= strtoupper(htmlspecialchars($transaksi['payment_type'] ?: '-')) ?></strong>
             </div>
             <div class="receipt-row">
-                <span>Waktu order</span>
+                <span>Waktu</span>
                 <strong><?= date('d M Y H:i', strtotime($transaksi['created_at'])) ?></strong>
             </div>
 
@@ -86,16 +86,16 @@ $change = max(0, $cashReceived - $transaksi['amount']);
                 <strong><?= htmlspecialchars($transaksi['durasi_display']) ?></strong>
             </div>
             <div class="receipt-row receipt-total">
-                <span>Total bayar</span>
+                <span>Total Bayar</span>
                 <strong>Rp <?= number_format($transaksi['amount'], 0, ',', '.') ?></strong>
             </div>
 
             <?php if ($isPaid && $transaksi['payment_type'] === 'cash'): ?>
             <div class="receipt-row">
-                <span>Tunai Diterima</span>
+                <span>Uang Diterima</span>
                 <strong>Rp <?= number_format($cashReceived, 0, ',', '.') ?></strong>
             </div>
-            <div class="receipt-row" style="color: var(--primary);">
+            <div class="receipt-row">
                 <span>Kembalian</span>
                 <strong>Rp <?= number_format($change, 0, ',', '.') ?></strong>
             </div>
@@ -104,15 +104,15 @@ $change = max(0, $cashReceived - $transaksi['amount']);
             <?php if ($isPaid && !empty($transaksi['mikrotik_user'])): ?>
                 <div class="receipt-divider"></div>
                 <div class="receipt-voucher">
-                    <span>Kode voucher</span>
+                    <span>Kode Voucher</span>
                     <code><?= htmlspecialchars($transaksi['mikrotik_user']) ?></code>
                 </div>
             <?php endif; ?>
 
             <div class="receipt-divider"></div>
 
-            <div style="text-align: center; color: var(--text-secondary); font-size: 0.9rem;">
-                <div>Terima kasih telah menggunakan layanan RipaNet.</div>
+            <div style="text-align:center;color:var(--text-muted);font-size:0.85rem;">
+                <div>Terima kasih telah menggunakan RipaNet.</div>
                 <div>Simpan struk ini sebagai bukti transaksi.</div>
             </div>
         </div>
@@ -120,9 +120,7 @@ $change = max(0, $cashReceived - $transaksi['amount']);
 
     <script>
     window.addEventListener('load', function() {
-        setTimeout(function() {
-            window.print();
-        }, 400);
+        setTimeout(function() { window.print(); }, 400);
     });
     </script>
 </body>
