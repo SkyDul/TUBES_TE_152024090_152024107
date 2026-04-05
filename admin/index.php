@@ -67,9 +67,9 @@ $recentSales = $stmtRecent->fetchAll();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Admin - RipaNet POS</title>
+    <title>Dashboard — RipaNet Admin</title>
     <link rel="icon" type="image/png" href="../assets/img/logo-RipaNet.png">
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/style.css?v=5">
 </head>
 <body>
     <div class="container admin-shell">
@@ -78,14 +78,15 @@ $recentSales = $stmtRecent->fetchAll();
                 <img class="brand__logo" src="../assets/img/logo-RipaNet.png" alt="Logo RipaNet">
                 <span class="brand__meta">
                     <strong>RipaNet Admin</strong>
-                    <span>Dashboard ringkas operasional kasir</span>
+                    <span>Dashboard</span>
                 </span>
             </a>
             <nav class="admin-topbar__links">
                 <a href="index.php" class="active">Dashboard</a>
-                <a href="pos.php">POS Kasir</a>
-                <a href="cash-orders.php">Antrean Cash</a>
-                <a href="logout.php" class="danger">Log Out</a>
+                <a href="pos.php">Penjualan</a>
+                <a href="cash-orders.php">Antrian</a>
+                <a href="products.php">Produk</a>
+                <a href="logout.php" class="danger">Keluar</a>
             </nav>
         </header>
 
@@ -93,22 +94,22 @@ $recentSales = $stmtRecent->fetchAll();
             <article class="kpi-card">
                 <div class="kpi-card__label">Pendapatan Hari Ini</div>
                 <div class="kpi-card__value">Rp <?= number_format((int) $todaySummary['total_revenue'], 0, ',', '.') ?></div>
-                <div class="kpi-card__hint"><?= number_format((int) $todaySummary['total_sales']) ?> transaksi settlement</div>
+                <div class="kpi-card__hint"><?= number_format((int) $todaySummary['total_sales']) ?> transaksi</div>
             </article>
             <article class="kpi-card">
-                <div class="kpi-card__label">Antrean Cash</div>
+                <div class="kpi-card__label">Antrian Tunai</div>
                 <div class="kpi-card__value"><?= number_format($pendingCount) ?></div>
-                <div class="kpi-card__hint">Nilai antrean Rp <?= number_format($pendingAmount, 0, ',', '.') ?></div>
+                <div class="kpi-card__hint">Rp <?= number_format($pendingAmount, 0, ',', '.') ?></div>
             </article>
             <article class="kpi-card">
-                <div class="kpi-card__label">Siap Diapprove</div>
+                <div class="kpi-card__label">Siap Dikonfirmasi</div>
                 <div class="kpi-card__value"><?= number_format($readyToApprove) ?></div>
-                <div class="kpi-card__hint">Sudah lolos deteksi uang</div>
+                <div class="kpi-card__hint">Sudah terverifikasi</div>
             </article>
             <article class="kpi-card">
                 <div class="kpi-card__label">Perlu Tindakan</div>
                 <div class="kpi-card__value"><?= number_format($blockedCounterfeit + $needRescan) ?></div>
-                <div class="kpi-card__hint">Palsu: <?= number_format($blockedCounterfeit) ?> | Ulang scan: <?= number_format($needRescan) ?></div>
+                <div class="kpi-card__hint">Ditolak: <?= number_format($blockedCounterfeit) ?> | Scan ulang: <?= number_format($needRescan) ?></div>
             </article>
         </section>
 
@@ -116,25 +117,30 @@ $recentSales = $stmtRecent->fetchAll();
             <section class="panel">
                 <div class="panel-head">
                     <div>
-                        <h2>Aksi Cepat</h2>
-                        <p>Masuk ke halaman kerja sesuai kebutuhan shift saat ini.</p>
+                        <h2>Menu Utama</h2>
+                        <p>Akses cepat ke fitur yang tersedia.</p>
                     </div>
                 </div>
                 <div class="summary-grid">
                     <article class="summary-item">
-                        <h4>POS Kasir (Kompleks)</h4>
-                        <p>Flow lengkap: buat order cash -> deteksi uang -> approval admin -> cetak voucher.</p>
-                        <a class="btn btn-primary btn-sm" href="pos.php">Buka POS Kasir</a>
+                        <h4>Terminal Penjualan</h4>
+                        <p>Buat pesanan tunai, verifikasi uang, dan konfirmasi pembayaran.</p>
+                        <a class="btn btn-primary btn-sm" href="pos.php">Buka Penjualan</a>
                     </article>
                     <article class="summary-item">
-                        <h4>Antrean Cash</h4>
-                        <p>Fokus ke order tunai dari pelanggan publik dengan tahapan scan uang terlebih dahulu.</p>
-                        <a class="btn btn-secondary btn-sm" href="cash-orders.php">Buka Antrean</a>
+                        <h4>Antrian Tunai</h4>
+                        <p>Lihat dan proses pesanan tunai dari pelanggan.</p>
+                        <a class="btn btn-secondary btn-sm" href="cash-orders.php">Buka Antrian</a>
                     </article>
                     <article class="summary-item">
-                        <h4>Landing Page</h4>
-                        <p>Cek tampilan publik yang dipakai pelanggan untuk memilih paket dan checkout.</p>
-                        <a class="btn btn-secondary btn-sm" href="../" target="_blank">Buka Landing</a>
+                        <h4>Kelola Produk</h4>
+                        <p>Tambah, edit, atau nonaktifkan paket voucher.</p>
+                        <a class="btn btn-secondary btn-sm" href="products.php">Kelola Produk</a>
+                    </article>
+                    <article class="summary-item">
+                        <h4>Halaman Pelanggan</h4>
+                        <p>Lihat halaman pembelian voucher untuk pelanggan.</p>
+                        <a class="btn btn-secondary btn-sm" href="../" target="_blank">Buka</a>
                     </article>
                 </div>
             </section>
@@ -143,14 +149,14 @@ $recentSales = $stmtRecent->fetchAll();
                 <div class="panel-head">
                     <div>
                         <h3>Transaksi Terbaru</h3>
-                        <p>Ringkasan 6 transaksi settlement terakhir.</p>
+                        <p>6 transaksi terakhir yang berhasil.</p>
                     </div>
                 </div>
 
                 <?php if (empty($recentSales)): ?>
                     <div class="empty-state">
-                        <strong>Belum ada transaksi settlement.</strong>
-                        <span>Data transaksi akan muncul otomatis setelah pembayaran berhasil.</span>
+                        <strong>Belum ada transaksi.</strong>
+                        <span>Transaksi akan muncul setelah pembayaran berhasil.</span>
                     </div>
                 <?php else: ?>
                     <div class="history-list">
@@ -167,7 +173,7 @@ $recentSales = $stmtRecent->fetchAll();
                                     <span class="status-badge status-badge--success"><?= strtoupper(htmlspecialchars($sale['payment_type'] ?: 'online')) ?></span>
                                 </div>
                                 <div class="queue-item__meta">
-                                    <span>Nominal Rp <?= number_format($sale['amount'], 0, ',', '.') ?></span>
+                                    <span>Rp <?= number_format($sale['amount'], 0, ',', '.') ?></span>
                                 </div>
                             </article>
                         <?php endforeach; ?>
