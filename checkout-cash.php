@@ -35,7 +35,7 @@ if ($transaksi['status'] === 'settlement') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pembayaran Tunai — <?= htmlspecialchars($transaksi['nama_paket']) ?></title>
     <link rel="icon" type="image/png" href="assets/img/logo-RipaNet.png">
-    <link rel="stylesheet" href="assets/css/style.css?v=5">
+    <link rel="stylesheet" href="assets/css/style.css?v=6">
 </head>
 <body>
     <div class="container checkout-shell">
