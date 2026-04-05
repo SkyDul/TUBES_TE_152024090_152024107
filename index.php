@@ -37,7 +37,7 @@ foreach ($packages as $package) {
     <title>RipaNet — Voucher WiFi Instan</title>
     <meta name="description" content="Beli voucher WiFi RipaNet secara online via QRIS atau bayar tunai di kasir. Aktif otomatis, tanpa ribet.">
     <link rel="icon" type="image/png" href="assets/img/logo-RipaNet.png">
-    <link rel="stylesheet" href="assets/css/style.css?v=5">
+    <link rel="stylesheet" href="assets/css/style.css?v=6">
     <script src="<?= htmlspecialchars($snapJsUrl) ?>" data-client-key="<?= htmlspecialchars($clientKey) ?>"></script>
 </head>
 <body>
@@ -51,7 +51,7 @@ foreach ($packages as $package) {
                         <span>Internet Cepat & Terjangkau</span>
                     </span>
                 </a>
-                <button class="nav-toggle" id="nav-toggle" aria-label="Menu">☰</button>
+                <button class="nav-toggle" id="nav-toggle" aria-label="Menu"><span class="icon"><svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></span></button>
                 <div class="nav-actions" id="nav-actions">
                     <a class="nav-link" href="#paket">Paket</a>
                     <a class="nav-link" href="#cara-beli">Cara Beli</a>

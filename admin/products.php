@@ -16,7 +16,7 @@ $packages = $pdo->query("
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kelola Produk — RipaNet Admin</title>
     <link rel="icon" type="image/png" href="../assets/img/logo-RipaNet.png">
-    <link rel="stylesheet" href="../assets/css/style.css?v=5">
+    <link rel="stylesheet" href="../assets/css/style.css?v=6">
 </head>
 <body>
     <div class="container admin-shell">
@@ -28,10 +28,12 @@ $packages = $pdo->query("
                     <span>Kelola Produk</span>
                 </span>
             </a>
-            <nav class="admin-topbar__links">
+            <button class="admin-nav-toggle" id="admin-nav-toggle" aria-label="Menu">
+                <span class="icon"><svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></span>
+            </button>
+            <nav class="admin-topbar__links" id="admin-nav">
                 <a href="index.php">Dashboard</a>
                 <a href="pos.php">Penjualan</a>
-                <a href="cash-orders.php">Antrian</a>
                 <a href="products.php" class="active">Produk</a>
                 <a href="logout.php" class="danger">Keluar</a>
             </nav>
@@ -92,8 +94,8 @@ $packages = $pdo->query("
                                 data-days="<?= $pkg['durasi_hari'] ?>"
                                 data-display="<?= htmlspecialchars($pkg['durasi_display'], ENT_QUOTES) ?>"
                                 data-active="<?= $pkg['is_active'] ?>"
-                            >✏️ Edit</button>
-                            <button class="btn btn-ghost btn-sm delete-btn" data-id="<?= $pkg['id'] ?>" data-name="<?= htmlspecialchars($pkg['nama_paket'], ENT_QUOTES) ?>">🗑️ Hapus</button>
+                            ><span class="icon icon--sm"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></span> Edit</button>
+                            <button class="btn btn-ghost btn-sm delete-btn" data-id="<?= $pkg['id'] ?>" data-name="<?= htmlspecialchars($pkg['nama_paket'], ENT_QUOTES) ?>"><span class="icon icon--sm"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></span> Hapus</button>
                         </div>
                     </div>
                     <?php endforeach; ?>
@@ -164,7 +166,7 @@ $packages = $pdo->query("
     <!-- Delete confirmation modal -->
     <div class="modal-overlay modal-alert" id="delete-modal">
         <div class="modal-content">
-            <div class="modal-icon modal-icon--danger">⚠</div>
+            <div class="modal-icon modal-icon--danger"><span class="icon icon--lg"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span></div>
             <h3 class="modal-title">Hapus Paket</h3>
             <div class="modal-body">Apakah Anda yakin ingin menghapus paket <strong id="delete-pkg-name">-</strong>?</div>
             <div class="modal-actions">
@@ -349,6 +351,15 @@ $packages = $pdo->query("
             btnSave.textContent = payload.id ? 'Perbarui Paket' : 'Simpan Paket';
         }
     });
+    // Admin nav toggle
+    const navToggle = document.getElementById('admin-nav-toggle');
+    const adminNav = document.getElementById('admin-nav');
+    if (navToggle && adminNav) {
+        navToggle.addEventListener('click', () => adminNav.classList.toggle('open'));
+        document.addEventListener('click', e => {
+            if (!navToggle.contains(e.target) && !adminNav.contains(e.target)) adminNav.classList.remove('open');
+        });
+    }
     </script>
 </body>
 </html>

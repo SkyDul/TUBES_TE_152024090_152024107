@@ -96,8 +96,8 @@ CREATE TABLE IF NOT EXISTS admins (
 
 -- User Admin Default: admin / admin123
 INSERT INTO admins (username, password_hash, role) 
-VALUES ('admin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin')
-ON DUPLICATE KEY UPDATE id=id;
+VALUES ('admin', '$2y$10$AsNvM15SKTbHdehGTAif1.WcYPJdcxLG.tkQ7k0RSS7jVzVKZTulK', 'admin')
+ON DUPLICATE KEY UPDATE password_hash=VALUES(password_hash), role=VALUES(role);
 
 -- =====================================================
 -- TABEL: cash_detection_logs

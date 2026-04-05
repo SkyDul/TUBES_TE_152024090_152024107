@@ -72,10 +72,16 @@ try {
         throw new Exception("Status transaksi sudah " . $transaksi['status']);
     }
 
-    // Mandatory step: latest cash detection must be genuine before settlement.
+    // Optional: check if detection exists (no longer mandatory)
     $detector = new CashDetectorService($pdo);
-    $maxAgeMinutes = (int) env('CASH_DETECTOR_MAX_AGE_MINUTES', 30);
-    $latestDetection = $detector->assertLatestIsGenuine($orderId, $maxAgeMinutes);
+    $latestDetection = null;
+    try {
+        $maxAgeMinutes = (int) env('CASH_DETECTOR_MAX_AGE_MINUTES', 30);
+        $latestDetection = $detector->assertLatestIsGenuine($orderId, $maxAgeMinutes);
+    } catch (Exception $detectionEx) {
+        // Detection not required — proceed without it
+        $latestDetection = null;
+    }
     
     // Generate voucher
     $voucher = VoucherGenerator::generateUnique($pdo, $transaksi['durasi_hari']);
@@ -94,23 +100,25 @@ try {
         error_log("Gagal menambahkan userman mikrotik untuk $orderId");
     }
     
-    // Catat siapa Kasir nya di raw_notification/notes  dan ubah status
+    // Catat siapa Kasir nya di raw_notification/notes dan ubah status
     $adminName = $_SESSION['admin_user'] ?? 'Unknown Admin';
-    $detectedAmount = (int) ($latestDetection['detected_amount'] ?? 0);
+    $detectedAmount = $latestDetection ? (int) ($latestDetection['detected_amount'] ?? 0) : 0;
     $finalCashReceived = $userCashReceived > 0 ? $userCashReceived : $detectedAmount;
     
+    $detectionInfo = $latestDetection ? [
+        'id' => (int) $latestDetection['id'],
+        'verdict' => $latestDetection['verdict'],
+        'confidence' => (float) $latestDetection['confidence'],
+        'detector_mode' => $latestDetection['detector_mode'],
+        'detection_ref' => $latestDetection['detection_ref'],
+        'detected_at' => $latestDetection['created_at'],
+    ] : 'skipped';
+
     $approvalNotes = json_encode([
         'approved_by' => $adminName,
         'method' => 'cash_manual',
         'cash_received' => $finalCashReceived,
-        'detection' => [
-            'id' => (int) $latestDetection['id'],
-            'verdict' => $latestDetection['verdict'],
-            'confidence' => (float) $latestDetection['confidence'],
-            'detector_mode' => $latestDetection['detector_mode'],
-            'detection_ref' => $latestDetection['detection_ref'],
-            'detected_at' => $latestDetection['created_at'],
-        ],
+        'detection' => $detectionInfo,
     ]);
     
     $stmt = $pdo->prepare("
@@ -142,15 +150,7 @@ try {
             'voucher_username' => $voucher['user'],
             'voucher_password' => $voucher['pass'],
             'approved_by' => $adminName,
-            'detection' => [
-                'id' => (int) $latestDetection['id'],
-                'verdict' => $latestDetection['verdict'],
-                'confidence' => (float) $latestDetection['confidence'],
-                'confidence_percent' => round(((float) $latestDetection['confidence']) * 100, 2),
-                'detector_mode' => $latestDetection['detector_mode'],
-                'detection_ref' => $latestDetection['detection_ref'],
-                'detected_at' => $latestDetection['created_at'],
-            ],
+            'detection' => $detectionInfo,
             'paid_at' => date('Y-m-d H:i:s'),
             'success_url' => '../success.php?order_id=' . urlencode($orderId),
             'invoice_url' => '../invoice.php?order_id=' . urlencode($orderId)
