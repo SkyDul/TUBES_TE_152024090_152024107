@@ -13,11 +13,22 @@ class CashDetectorService
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
-        $this->ensureDetectionTable();
+        // Hanya cek table jika tidak sedang dalam transaksi
+        if (!$this->pdo->inTransaction()) {
+            $this->ensureDetectionTable();
+        }
     }
 
     public function ensureDetectionTable(): void
     {
+        // Hindari implicit commit MySQL kecuali memang tabelnya belum ada
+        try {
+            $this->pdo->query("SELECT 1 FROM cash_detection_logs LIMIT 1");
+            return; // Tabel sudah ada
+        } catch (PDOException $e) {
+            // Tabel belum ada, jalankan DDL
+        }
+
         $this->pdo->exec("
             CREATE TABLE IF NOT EXISTS cash_detection_logs (
                 id BIGINT AUTO_INCREMENT PRIMARY KEY,

@@ -47,7 +47,10 @@ if ($transaksi['status'] === 'settlement') {
                     <span>Menunggu konfirmasi kasir</span>
                 </span>
             </a>
-            <a class="btn btn-secondary btn-sm" href="./">Kembali</a>
+            <div style="display: flex; gap: 8px;">
+                <button type="button" class="btn btn-secondary btn-sm" id="cancel-btn" style="color:var(--danger); border-color:rgba(239,68,64,0.3);">Batalkan</button>
+                <a class="btn btn-secondary btn-sm" href="./">Kembali</a>
+            </div>
         </div>
 
         <div class="checkout-grid">
@@ -122,10 +125,57 @@ if ($transaksi['status'] === 'settlement') {
         </div>
     </div>
 
+    <!-- Cancel Confirmation Modal -->
+    <div class="modal-overlay" id="cancel-modal">
+        <div class="modal-content" style="max-width: 400px; text-align: center;">
+            <button class="modal-close" id="cancel-modal-close" type="button">&times;</button>
+            <div style="margin: 0 auto 16px; width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; background: rgba(239, 68, 64, 0.1); color: var(--danger);">
+                <svg viewBox="0 0 24 24" width="32" height="32" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </div>
+            <h3 style="margin-bottom: 8px; font-size: 1.25rem;">Batalkan Pesanan?</h3>
+            <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 24px;">Apakah Anda yakin ingin membatalkan pesanan ini? Aksi ini tidak dapat dibatalkan.</p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <button type="button" class="btn btn-secondary" id="cancel-modal-no">Tidak, Kembali</button>
+                <button type="button" class="btn btn-primary" id="cancel-modal-yes" style="background: var(--danger); border-color: var(--danger);">Ya, Batalkan</button>
+            </div>
+        </div>
+    </div>
+
     <script src="assets/js/checkout.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         new CheckoutHandler('<?= htmlspecialchars($orderId) ?>', 60);
+        
+        const cancelBtn = document.getElementById('cancel-btn');
+        const cancelModal = document.getElementById('cancel-modal');
+        const btnNo = document.getElementById('cancel-modal-no');
+        const btnYes = document.getElementById('cancel-modal-yes');
+        const btnClose = document.getElementById('cancel-modal-close');
+
+        if (cancelBtn && cancelModal) {
+            const hideModal = () => cancelModal.classList.remove('active');
+            
+            cancelBtn.addEventListener('click', () => cancelModal.classList.add('active'));
+            btnClose.addEventListener('click', hideModal);
+            btnNo.addEventListener('click', hideModal);
+            
+            btnYes.addEventListener('click', async () => {
+                try {
+                    btnYes.disabled = true;
+                    btnYes.innerHTML = '<span class="spinner"></span> Proses...';
+                    
+                    await fetch('api/cancel-order.php', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({ order_id: '<?= htmlspecialchars($orderId) ?>' })
+                    });
+                    
+                    window.location.href = './';
+                } catch (e) {
+                    window.location.href = './';
+                }
+            });
+        }
     });
     </script>
 </body>

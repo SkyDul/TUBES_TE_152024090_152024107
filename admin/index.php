@@ -30,7 +30,7 @@ $stmtRecent = $pdo->query("
     JOIN paket_voucher p ON p.id = t.paket_id
     WHERE t.status = 'settlement'
     ORDER BY t.paid_at DESC
-    LIMIT 8
+    LIMIT 100
 ");
 $recentSales = $stmtRecent->fetchAll();
 ?>
@@ -132,7 +132,7 @@ $recentSales = $stmtRecent->fetchAll();
                         <span>Transaksi akan muncul setelah pembayaran berhasil.</span>
                     </div>
                 <?php else: ?>
-                    <div class="history-list">
+                    <div class="history-list" id="history-list">
                         <?php foreach ($recentSales as $sale): ?>
                             <article class="history-item">
                                 <div class="history-item__top">
@@ -151,6 +151,13 @@ $recentSales = $stmtRecent->fetchAll();
                             </article>
                         <?php endforeach; ?>
                     </div>
+                    <?php if (count($recentSales) > 5): ?>
+                    <div class="history-pagination" style="display: flex; justify-content: center; align-items: center; gap: 12px; margin-top: 15px;">
+                        <button type="button" class="btn btn-secondary btn-sm" id="hist-prev" style="padding: 4px 8px;">&laquo; Prev</button>
+                        <span id="hist-page-info" style="font-size: 0.85rem; font-weight: 500; color: var(--text-muted); min-width: 40px; text-align: center;">1 / 1</span>
+                        <button type="button" class="btn btn-secondary btn-sm" id="hist-next" style="padding: 4px 8px;">Next &raquo;</button>
+                    </div>
+                    <?php endif; ?>
                 <?php endif; ?>
             </section>
         </section>
@@ -165,6 +172,96 @@ $recentSales = $stmtRecent->fetchAll();
             if (!navToggle.contains(e.target) && !adminNav.contains(e.target)) adminNav.classList.remove('open');
         });
     }
+
+    // --- Pagination Logic ---
+    let currentHistoryPage = 1;
+    const historyItemsPerPage = 5;
+
+    function updateHistoryPagination() {
+        const list = document.getElementById('history-list');
+        if (!list) return;
+        const items = list.querySelectorAll('.history-item');
+        if (items.length === 0) return;
+        
+        const totalPages = Math.ceil(items.length / historyItemsPerPage);
+        if (currentHistoryPage > totalPages) currentHistoryPage = totalPages;
+        if (currentHistoryPage < 1) currentHistoryPage = 1;
+
+        items.forEach((item, index) => {
+            const page = Math.floor(index / historyItemsPerPage) + 1;
+            if (page === currentHistoryPage) {
+                item.style.display = '';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+
+        const prevBtn = document.getElementById('hist-prev');
+        const nextBtn = document.getElementById('hist-next');
+        const info = document.getElementById('hist-page-info');
+
+        if (prevBtn && nextBtn && info) {
+            info.textContent = currentHistoryPage + ' / ' + totalPages;
+            prevBtn.disabled = currentHistoryPage === 1;
+            nextBtn.disabled = currentHistoryPage === totalPages;
+            
+            const pagContainer = prevBtn.parentElement;
+            if (totalPages <= 1 && pagContainer) {
+                pagContainer.style.display = 'none';
+            } else if (pagContainer) {
+                pagContainer.style.display = 'flex';
+            }
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        updateHistoryPagination();
+        
+        const prevBtn = document.getElementById('hist-prev');
+        const nextBtn = document.getElementById('hist-next');
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                if (currentHistoryPage > 1) { currentHistoryPage--; updateHistoryPagination(); }
+            });
+        }
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                const items = document.querySelectorAll('#history-list .history-item');
+                const totalPages = Math.ceil(items.length / historyItemsPerPage);
+                if (currentHistoryPage < totalPages) { currentHistoryPage++; updateHistoryPagination(); }
+            });
+        }
+        
+        // --- Interactive Menu Animation ---
+        const menuGrid = document.querySelector('.summary-grid');
+        const menuItems = menuGrid ? menuGrid.querySelectorAll('.summary-item') : [];
+        
+        if (menuGrid && menuItems.length > 0) {
+            menuItems.forEach((item, index) => {
+                item.addEventListener('mouseenter', () => {
+                    menuItems.forEach(c => {
+                        const btn = c.querySelector('.btn');
+                        if (btn) btn.className = btn.className.replace('btn-primary', 'btn-secondary');
+                    });
+                    const activeBtn = item.querySelector('.btn');
+                    if (activeBtn) activeBtn.className = activeBtn.className.replace('btn-secondary', 'btn-primary');
+                });
+            });
+
+            menuGrid.addEventListener('mouseleave', () => {
+                menuItems.forEach((c, idx) => {
+                    const btn = c.querySelector('.btn');
+                    if (btn) {
+                        if (idx === 0) {
+                            btn.className = btn.className.replace('btn-secondary', 'btn-primary');
+                        } else {
+                            btn.className = btn.className.replace('btn-primary', 'btn-secondary');
+                        }
+                    }
+                });
+            });
+        }
+    });
     </script>
 </body>
 </html>
