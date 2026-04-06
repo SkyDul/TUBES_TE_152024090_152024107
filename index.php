@@ -340,6 +340,39 @@ foreach ($packages as $package) {
             }
         });
     }
+    
+    // Interactive featured package animation
+    const packagesGrid = document.querySelector('.packages-grid');
+    const packageCards = document.querySelectorAll('.package-card');
+    const originalFeatured = document.querySelector('.package-card--featured');
+
+    if (packagesGrid && packageCards.length > 0) {
+        packageCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                packageCards.forEach(c => {
+                    c.classList.remove('package-card--featured');
+                    const btn = c.querySelector('.buy-package');
+                    if (btn) btn.className = 'btn btn-primary buy-package';
+                });
+                card.classList.add('package-card--featured');
+                const activeBtn = card.querySelector('.buy-package');
+                if (activeBtn) activeBtn.className = 'btn btn-accent buy-package';
+            });
+        });
+
+        packagesGrid.addEventListener('mouseleave', () => {
+            if (originalFeatured) {
+                packageCards.forEach(c => {
+                    c.classList.remove('package-card--featured');
+                    const btn = c.querySelector('.buy-package');
+                    if (btn) btn.className = 'btn btn-primary buy-package';
+                });
+                originalFeatured.classList.add('package-card--featured');
+                const origBtn = originalFeatured.querySelector('.buy-package');
+                if (origBtn) origBtn.className = 'btn btn-accent buy-package';
+            }
+        });
+    }
 
     const packageButtons = document.querySelectorAll('.buy-package');
     const paymentModal = document.getElementById('payment-modal');
