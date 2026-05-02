@@ -55,6 +55,7 @@ foreach ($packages as $package) {
                 <div class="nav-actions" id="nav-actions">
                     <a class="nav-link" href="#paket">Paket</a>
                     <a class="nav-link" href="#cara-beli">Cara Beli</a>
+                    <a class="nav-link" href="register-agent.php">Daftar Agen</a>
                     <a class="btn btn-secondary btn-sm" href="admin/">Login Admin</a>
                 </div>
             </div>
@@ -295,6 +296,7 @@ foreach ($packages as $package) {
                     <div class="footer__links">
                         <a href="#paket">Paket</a>
                         <a href="#cara-beli">Cara Beli</a>
+                        <a href="register-agent.php">Daftar Agen</a>
                         <a href="admin/">Admin</a>
                     </div>
                 </div>
