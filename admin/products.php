@@ -35,6 +35,7 @@ $packages = $pdo->query("
                 <a href="index.php">Dashboard</a>
                 <a href="pos.php">Penjualan</a>
                 <a href="products.php" class="active">Produk</a>
+                <a href="agents.php">Agen</a>
                 <a href="logout.php" class="danger">Keluar</a>
             </nav>
         </header>

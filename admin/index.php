@@ -60,6 +60,7 @@ $recentSales = $stmtRecent->fetchAll();
                 <a href="index.php" class="active">Dashboard</a>
                 <a href="pos.php">Penjualan</a>
                 <a href="products.php">Produk</a>
+                <a href="agents.php">Agen</a>
                 <a href="logout.php" class="danger">Keluar</a>
             </nav>
         </header>
